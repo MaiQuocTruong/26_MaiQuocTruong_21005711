@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit sinh vien</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        h2 {
+            font-weight: bold;
+            color: '#ccc';
+            text-align: center;
+        }
+        .footer {
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>26 - Mai Quốc Trưởng - 21005711 </h1>
+        <h2>Edit sinh vien</h2>
+        <!-- Form chỉnh sửa sản phẩm -->
+        <form th:action="@{/sinhvien/update/{masv}(masv=${updateSinhVien.masv})}" th:object="${updateSinhVien}" method="post" enctype="multipart/form-data">                  
+            <div class="form-group">
+                <label for="tenSV">Ten sv</label>
+                <input type="text" class="form-control" id="tenSV" th:field="*{tenSV}" placeholder="Enter ten sinh vien" required>
+                <div th:if="${#fields.hasErrors('tenSV')}" class="text-danger">
+                  <span th:errors="*{tenSV}">Tên sinh viên không được bỏ trống</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" th:field="*{email}" placeholder="Enter email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ngaySinh">Ngay Sinh</label>
+                <input type="date" class="form-control" id="ngaySinh" th:field="*{ngaySinh}" required>
+                <div th:if="${#fields.hasErrors('ngaySinh')}" class="text-danger">
+                  <span th:errors="*{ngaySinh}">Ngày sinh phải là quá khứ và bạn phải đủ 18 tuổi</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="dienthoai">Dien thoai</label>
+                <input type="text" class="form-control" id="dienthoai" th:field="*{dienthoai}" placeholder="Enter dien thoai" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="gioitinh">Gioi tinh</label>
+                <div>
+                   <label>
+                      <input type="radio" th:field="*{gioitinh}" value="Nam" /> Nam
+                   </label>
+                </div>
+                <div>
+                   <label>
+                      <input type="radio" th:field="*{gioitinh}" value="Nữ" /> Nữ
+                   </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lophoc">Lop hoc</label>
+                <select th:field="*{lophoc.maLop}" id="lophoc" class="form-control">
+                    <option th:each="lophoc : ${lophocs}"
+                            th:value="${lophoc.maLop}"
+                            th:text="${lophoc.tenLop}"
+                            th:selected="${lophoc.maLop == updateSinhVien.lophoc.maLop}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="footer">
+                <a href="/sinhvien" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

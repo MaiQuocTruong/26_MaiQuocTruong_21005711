@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List SinhVien</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      img {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: cover;
+      }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>26 - Mai Quốc Trưởng - 21005711 </h1>
+        <h2>Sinh Vien List </h2>
+        <a class="btn btn-success" th:href="@{/sinhvien/add-sinhvien}">Thêm mới</a>
+
+        <!-- Search Form -->
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-6">
+                <form method="get" th:action="@{/sinhvien/search}" class="input-group">
+                   <input type="text" name="keyword" class="form-control" placeholder="Search sinh vien..." th:value="${keyword}" />
+                   <button type="submit" class="btn btn-secondary">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Display search results or all albums -->
+        <div th:if="${#lists.isEmpty(sv)}">
+            <div class="alert alert-warning" role="alert">
+                No sinh vien found for the keyword: <strong th:text="${keyword}"></strong>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên sinh vien</th>
+                    <th>Email</th>
+                    <th>Ngay sinh</th>
+                    <th>Dien thoai</th>
+                    <th>Gioi tinh</th>
+                    <th>Lop hoc</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Thymeleaf loop to display albums -->
+                <tr th:each="sinhvien : ${sv}">
+                    <td th:text="${sinhvien.masv}"></td>
+                    <td th:text="${sinhvien.tenSV}"></td>
+                    <td th:text="${sinhvien.email}"></td>
+                    <td th:text="${sinhvien.ngaySinhFormatted}"></td>
+                    <td th:text="${sinhvien.dienthoai}"></td>
+                    <td th:text="${sinhvien.gioitinh}"></td>
+                    <td th:text="${sinhvien.lophoc.tenLop}"></td>
+                    <td>
+                        <a th:href="@{/sinhvien/edit-sinhvien/{masv}(masv=${sinhvien.masv})}" class="btn btn-info btn-sm">Chỉnh sửa</a>
+                        <a th:href="@{/sinhvien/delete/{masv}(masv=${sinhvien.masv})}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Bạn có chắc chắn xóa không?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
